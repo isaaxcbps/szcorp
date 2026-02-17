@@ -195,7 +195,7 @@
                 </div>
               </div>
             </div>
-            <button class="btn btn-form btn-primary offset-top-30" type="submit">Enviar mensaje</button>
+            <button class="btn btn-form btn-primary offset-top-30" type="button" onclick="enviarAWhatsapp()">Enviar Mensaje</button>
           </form>
         </div>
       </section>
@@ -287,5 +287,39 @@
   </div>
     <script src="js/core.min.js"></script>
     <script src="js/script.js"></script>
+    <script>
+    function enviarAWhatsapp() {
+        // 1. Tomamos los datos que escribió el cliente
+        // NOTA: Uso los IDs que tienes en tu código actual (contact-company es el teléfono)
+        var nombre = document.getElementById("contact-name").value;
+        var email = document.getElementById("contact-email").value;
+        var telefono = document.getElementById("contact-company").value; 
+        var asunto = document.getElementById("contact-subject").value;
+        var mensaje = document.getElementById("contact-message").value;
+
+        // 2. Verificamos que no envíen el formulario vacío
+        if (nombre === "" || telefono === "") {
+            alert("Por favor, ayúdenos con su Nombre y Teléfono para poder contactarlo.");
+            return;
+        }
+
+        // 3. Tu número de teléfono (SIN el 0 inicial, solo 593...)
+        var telefonoDestino = "593983372508"; 
+
+        // 4. Armamos el mensaje bonito con saltos de línea (%0A) y negritas (*)
+        var textoMensaje = "Hola SZ CORP, nuevo contacto desde la web:%0A%0A" +
+                           "👤 *Nombre:* " + nombre + "%0A" +
+                           "📱 *Teléfono:* " + telefono + "%0A" +
+                           "📧 *Email:* " + email + "%0A" +
+                           "📍 *Asunto:* " + asunto + "%0A" +
+                           "💬 *Mensaje:* " + mensaje;
+
+        // 5. Creamos el enlace final
+        var url = "https://api.whatsapp.com/send?phone=" + telefonoDestino + "&text=" + textoMensaje;
+
+        // 6. Abrimos WhatsApp en una nueva pestaña
+        window.open(url, '_blank');
+    }
+    </script>
   </body>
 </html>
